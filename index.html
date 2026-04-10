@@ -368,11 +368,7 @@ nav{background:var(--navy);border-bottom:1px solid var(--border);display:flex;al
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'caliber2025';
 
-let reports = [
-  {id:1,client:'Contoso — P&L Overview',industry:'Finance',pbiLink:'https://app.powerbi.com',desensitised:true,live:false,summary:'Unified P&L, cash flow, and budget variance with drill-down to cost centre level. Fully anonymised for external presentations.',thumbnails:[],date:'3 Apr 2025'},
-  {id:2,client:'Northwind — Sales Analytics',industry:'Retail',pbiLink:'https://app.powerbi.com',desensitised:false,live:true,summary:'Store-level sales performance, basket size trends, and regional heatmaps refreshed daily from production data.',thumbnails:[],date:'1 Apr 2025'},
-  {id:3,client:'MedCore — Patient Outcomes',industry:'Healthcare',pbiLink:'https://app.powerbi.com',desensitised:true,live:false,summary:'Readmission rates, bed occupancy, and clinical pathway adherence by ward and consultant. Data fully desensitised.',thumbnails:[],date:'28 Mar 2025'},
-];
+let reports = [];
 
 let isAdmin=false,industryFilter='all',desensFilter=false,liveFilter=false;
 let editingThumbs=[],editingId=null,currentId=null,pendingDelId=null;
@@ -482,19 +478,19 @@ function renderThumbs(){
 }
 function rmThumb(i){editingThumbs.splice(i,1);renderThumbs();}
 
-function saveReport(){
+async function saveReport(){
   const client=document.getElementById('f-client').value.trim();
   if(!client){toast('Please enter a client name',true);return;}
   const data={client,industry:document.getElementById('f-industry').value.trim(),pbiLink:document.getElementById('f-pbi').value.trim(),desensitised:document.getElementById('tog-d').classList.contains('on'),live:document.getElementById('tog-l').classList.contains('on'),summary:document.getElementById('f-summary').value.trim(),thumbnails:[...editingThumbs]};
-  if(editingId!==null){
-    const idx=reports.findIndex(r=>r.id===editingId);
-    if(idx>-1)reports[idx]={...reports[idx],...data};
-    toast('Report updated');
-  } else {
-    data.id=Date.now();
-    data.date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-    reports.unshift(data);toast('Report added');
-  }
+if(editingId!==null){
+  await db.collection("reports").doc(String(editingId)).set(data);
+  toast('Report updated');
+} else {
+  data.date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const docRef = await db.collection("reports").add(data);
+  data.id = docRef.id;
+  toast('Report added');
+}
   editingId=null;resetForm();
   showView('form');
   document.getElementById('dl-banner').style.display='flex';
@@ -509,9 +505,10 @@ function resetForm(){
 }
 
 function confirmDel(id){if(!isAdmin){toast('Admin access required',true);return;}pendingDelId=id;closeOverlay('modal');openOverlay('confirm-ov');}
-function doDelete(){
+async function doDelete(){
   if(pendingDelId===null)return;
-  reports=reports.filter(r=>r.id!==pendingDelId);
+await db.collection("reports").doc(String(pendingDelId)).delete();
+await loadReports();
   closeOverlay('confirm-ov');render();toast('Report deleted');pendingDelId=null;
   showView('form');
   document.getElementById('dl-banner').style.display='flex';
@@ -543,7 +540,16 @@ function getFiltered(){
     return true;
   });
 }
+async function loadReports(){
+  const snapshot = await db.collection("reports").get();
 
+  reports = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+
+  render();
+}
 function render(){buildFilters();buildStats();buildGrid();}
 function buildFilters(){
   const inds=[...new Set(reports.map(r=>r.industry).filter(Boolean))].sort();
@@ -614,6 +620,7 @@ function toast(msg,isErr){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOverlay('modal');closeOverlay('confirm-ov');closeLogin();}});
 setAdminMode(false);showView('gallery');
+  loadReports();
 </script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
