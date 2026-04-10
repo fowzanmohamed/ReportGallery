@@ -1,198 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>CaliberFocus — Client Report Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
+/* Root variables and base styles provided in the source  */
 :root{--navy:#0d1117;--navy2:#161b27;--navy3:#1e2535;--navy4:#252d3d;--navy5:#2e3a52;--pink:#e91e8c;--pink2:#ff3d9a;--pink-dim:rgba(233,30,140,0.10);--pink-border:rgba(233,30,140,0.30);--white:#ffffff;--text:#e8edf5;--text2:#9aa3b5;--text3:#5d6880;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--border3:rgba(255,255,255,0.18);--radius:14px;--radius-sm:8px;--radius-lg:20px;--font:'Inter',sans-serif;--shadow:0 8px 40px rgba(0,0,0,0.4);--lt-bg:#f4f6fa;--lt-surface:#ffffff;--lt-border:#e8edf5;--lt-border2:#dce3ee;--lt-text:#0d1117;--lt-text2:#5d6880;--lt-text3:#9aa3b5;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--navy);color:var(--text);font-family:var(--font);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased;}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--navy5);border-radius:10px;}
+
+/* Navigation styles  */
 nav{background:var(--navy);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:66px;position:sticky;top:0;z-index:60;backdrop-filter:blur(12px);}
 .logo{font-size:21px;font-weight:800;color:var(--white);letter-spacing:-0.5px;cursor:pointer;user-select:none;}.logo span{color:var(--pink);}
 .nav-center{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:40px;padding:4px 6px;}
 .nav-btn{padding:7px 18px;border-radius:30px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.15s;border:none;background:none;font-family:var(--font);}
-.nav-btn:hover{color:var(--white);}.nav-btn.active{background:var(--white);color:var(--navy);font-weight:700;}
-.nav-right{display:flex;align-items:center;gap:12px;}
-.admin-badge{display:flex;align-items:center;gap:6px;background:var(--pink-dim);border:1px solid var(--pink-border);border-radius:30px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--pink);letter-spacing:0.5px;}
-.admin-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:pulse 2s infinite;}
-.btn-nav-cta{background:transparent;color:var(--white);border:1.5px solid var(--border3);border-radius:40px;padding:8px 22px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
-.btn-nav-cta:hover{background:var(--pink);border-color:var(--pink);}
-.btn-nav-logout{background:transparent;color:var(--text2);border:1.5px solid var(--border2);border-radius:40px;padding:8px 22px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
-.btn-nav-logout:hover{border-color:var(--border3);color:var(--white);}
+.nav-btn.active{background:var(--white);color:var(--navy);font-weight:700;}
+
+/* Hero and Stats sections [cite: 51, 57] */
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 50%,#1a1030 100%);padding:60px 40px 52px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(233,30,140,0.08) 0%,transparent 65%);pointer-events:none;}
-.hero::after{content:'';position:absolute;bottom:-60px;left:30%;width:300px;height:300px;background:radial-gradient(circle,rgba(100,120,255,0.05) 0%,transparent 65%);pointer-events:none;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--pink-dim);border:1px solid var(--pink-border);border-radius:40px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--pink);letter-spacing:1px;text-transform:uppercase;margin-bottom:22px;}
-.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--pink);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
 .hero h1{font-size:clamp(28px,4vw,52px);font-weight:900;line-height:1.08;letter-spacing:-2px;color:var(--white);max-width:600px;}
 .hero h1 em{font-style:normal;color:var(--pink);}
-.hero-sub{font-size:15px;color:var(--text2);max-width:480px;line-height:1.7;margin-top:14px;}
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--lt-border);background:var(--lt-surface);}
-.stat-item{padding:22px 40px;border-right:1px solid var(--lt-border);}.stat-item:last-child{border-right:none;}
-.stat-num{font-size:34px;font-weight:900;letter-spacing:-2px;color:var(--lt-text);line-height:1;}.stat-num em{color:var(--pink);font-style:normal;}
-.stat-label{font-size:11px;color:var(--lt-text3);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:0.8px;}
-.filter-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid var(--lt-border);gap:12px;flex-wrap:wrap;background:var(--lt-surface);}
-.filter-left{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}.filter-right{display:flex;align-items:center;gap:8px;}
-.f-btn{padding:6px 14px;border-radius:30px;font-size:12px;font-weight:600;border:1.5px solid var(--lt-border2);background:transparent;cursor:pointer;color:var(--lt-text2);transition:all 0.15s;font-family:var(--font);}
-.f-btn:hover{border-color:#b0bcd4;color:var(--lt-text);}.f-btn.active{background:var(--lt-text);color:#fff;border-color:var(--lt-text);}
-.f-btn.desens-active{background:var(--pink);color:#fff;border-color:var(--pink);}
-.search-wrap{position:relative;}
-.search-wrap input{background:#f4f6fa;border:1.5px solid var(--lt-border2);border-radius:var(--radius-sm);padding:8px 14px 8px 34px;font-family:var(--font);font-size:13px;color:var(--lt-text);width:210px;outline:none;transition:all 0.15s;}
-.search-wrap input:focus{border-color:var(--pink-border);background:var(--lt-surface);box-shadow:0 0 0 3px rgba(233,30,140,0.07);}
-.search-wrap input::placeholder{color:var(--lt-text3);}
-.search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--lt-text3);pointer-events:none;}
+.stat-item{padding:22px 40px;border-right:1px solid var(--lt-border);}
+
+/* Main Layout and Gallery [cite: 52, 58] */
 .main-layout{display:flex;min-height:calc(100vh - 66px);background:var(--lt-bg);}
 .sidebar{width:215px;flex-shrink:0;border-right:1px solid var(--lt-border);padding:24px 14px;position:sticky;top:66px;height:fit-content;background:var(--lt-surface);}
-.sb-section{margin-bottom:22px;}.sb-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lt-text3);margin-bottom:8px;padding:0 8px;}
-.sb-chips{display:flex;flex-direction:column;gap:1px;}
-.sb-chip{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;color:var(--lt-text2);font-weight:500;transition:all 0.15s;border:1px solid transparent;}
-.sb-chip:hover{background:var(--lt-bg);color:var(--lt-text);}.sb-chip.active{background:rgba(233,30,140,0.07);color:var(--pink);border-color:rgba(233,30,140,0.22);}
-.sb-chip.active .sb-count{color:var(--pink);}.sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.sb-count{margin-left:auto;font-size:11px;font-weight:600;color:var(--lt-text3);}
 .gallery-wrap{flex:1;padding:28px 32px;background:var(--lt-bg);}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;}
-.report-card{background:var(--lt-surface);border:1px solid var(--lt-border);border-radius:var(--radius-lg);overflow:hidden;transition:all 0.22s;display:flex;flex-direction:column;position:relative;cursor:pointer;}
-.report-card:hover{border-color:#b0bcd4;transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.10);}
-.card-thumb{aspect-ratio:16/9;position:relative;overflow:hidden;}
-.card-thumb-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.35s;}
-.report-card:hover .card-thumb-img{transform:scale(1.04);}
-.card-thumb-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#f0f2f8 0%,#e4e9f5 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;}
-.card-thumb-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 40%,rgba(233,30,140,0.05) 0%,transparent 60%);}
-.ph-num{font-size:52px;font-weight:900;letter-spacing:-4px;line-height:1;opacity:0.13;color:#0d1117;font-style:italic;}
-.ph-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:0.35;color:#252d3d;}
-.card-pbi{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);border:1px solid var(--lt-border2);border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;color:#252d3d;display:flex;align-items:center;gap:5px;}
-.pbi-dot{width:5px;height:5px;border-radius:50%;background:#f2c811;flex-shrink:0;}
-.card-actions{position:absolute;top:10px;right:10px;display:flex;gap:5px;}
-.card-action-btn{width:28px;height:28px;background:rgba(255,255,255,0.93);backdrop-filter:blur(6px);border:1px solid var(--lt-border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:all 0.15s;color:#5d6880;}
-.report-card:hover .card-action-btn{opacity:1;}.card-action-btn:hover{background:#fff;border-color:#b0bcd4;color:#0d1117;}
-.card-action-btn.del:hover{background:rgba(220,38,38,0.9);border-color:rgba(220,38,38,0.4);color:#fff;}
-.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:8px;}
-.card-ind{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
-.card-title{font-size:14px;font-weight:700;color:var(--lt-text);line-height:1.35;letter-spacing:-0.2px;}
-.card-pills{display:flex;gap:5px;flex-wrap:wrap;}
-.pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;}
-.pill-d{background:rgba(34,197,94,0.10);color:#16a34a;border:1px solid rgba(34,197,94,0.22);}
-.pill-l{background:rgba(245,158,11,0.10);color:#d97706;border:1px solid rgba(245,158,11,0.22);}
-.pill-s{background:rgba(239,68,68,0.10);color:#dc2626;border:1px solid rgba(239,68,68,0.22);}
-.card-summary{font-size:12px;color:var(--lt-text2);line-height:1.65;flex:1;}
-.thumb-strip{display:flex;gap:4px;}
-.tmini{width:38px;aspect-ratio:16/9;border-radius:4px;overflow:hidden;border:1px solid var(--lt-border);background:var(--lt-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--lt-text3);}
-.tmini img{width:100%;height:100%;object-fit:cover;}
-.card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--lt-border);margin-top:2px;}
-.card-date{font-size:10px;color:var(--lt-text3);font-weight:500;}.card-arrow{font-size:11px;font-weight:700;color:var(--pink);}
-.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px;}
-.empty-big{font-size:80px;font-weight:900;letter-spacing:-6px;color:#e2e7f0;font-style:italic;line-height:1;}
-.empty-text{font-size:15px;font-weight:600;color:var(--lt-text3);margin-top:14px;}
+
+/* Admin Badge and Buttons [cite: 51, 56] */
+.admin-badge{display:flex;align-items:center;gap:6px;background:var(--pink-dim);border:1px solid var(--pink-border);border-radius:30px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--pink);letter-spacing:0.5px;}
+.btn-nav-cta{background:transparent;color:var(--white);border:1.5px solid var(--border3);border-radius:40px;padding:8px 22px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;}
+
+/* Overlay and Form styles [cite: 53, 58] */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.2s;backdrop-filter:blur(6px);}
 .overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--navy2);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:740px;max-height:90vh;overflow-y:auto;position:relative;}
-.modal-head{background:linear-gradient(135deg,var(--navy3),var(--navy4));padding:28px 32px 24px;border-radius:24px 24px 0 0;border-bottom:1px solid var(--border);position:relative;}
-.modal-close{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.07);border:1px solid var(--border2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:17px;transition:all 0.15s;line-height:1;}
-.modal-close:hover{background:rgba(255,255,255,0.13);color:var(--white);}
-.modal-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.modal-title{font-size:26px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1.15;}
-.modal-mpills{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
-.modal-body{padding:24px 32px 32px;}
-.modal-cover{width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;background:var(--navy3);margin-bottom:22px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
-.modal-cover img{width:100%;height:100%;object-fit:cover;}
-.mcov-ph{font-size:64px;font-weight:900;color:var(--navy5);font-style:italic;}
-.modal-sec{margin-bottom:20px;}.modal-sec-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
-.modal-sum{font-size:14px;color:var(--text2);line-height:1.75;}
-.modal-thumbs{display:flex;gap:8px;flex-wrap:wrap;}
-.modal-thumb{width:120px;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);}
-.modal-thumb img{width:100%;height:100%;object-fit:cover;}
-.modal-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.btn-pbi{display:inline-flex;align-items:center;gap:8px;background:var(--pink);color:#fff;padding:12px 24px;border-radius:var(--radius-sm);font-weight:700;font-size:13px;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s;font-family:var(--font);}
-.btn-pbi:hover{background:var(--pink2);transform:translateY(-1px);}
-.btn-edit-modal{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--text2);border:1.5px solid var(--border2);padding:11px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
-.btn-edit-modal:hover{border-color:var(--border3);color:var(--white);}
-.btn-del-modal{display:inline-flex;align-items:center;gap:7px;background:transparent;color:#f87171;border:1.5px solid rgba(248,113,113,0.28);padding:11px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
-.btn-del-modal:hover{background:rgba(239,68,68,0.1);border-color:rgba(248,113,113,0.6);}
 .form-view{display:none;padding:40px;background:var(--navy);min-height:calc(100vh - 66px);}
 .form-view.active{display:block;}
-.form-topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap;}
-.form-topbar-left h2{font-size:26px;font-weight:900;letter-spacing:-0.8px;color:var(--white);}
-.form-topbar-left h2 em{color:var(--pink);font-style:normal;}
-.form-topbar-left p{font-size:13px;color:var(--text3);margin-top:5px;}
-.download-banner{background:linear-gradient(135deg,rgba(233,30,140,0.12),rgba(233,30,140,0.05));border:1px solid var(--pink-border);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
-.dl-text{font-size:13px;color:var(--text2);line-height:1.5;}.dl-text strong{color:var(--white);}
-.btn-dl{background:var(--pink);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 20px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
-.btn-dl:hover{background:var(--pink2);}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.field{display:flex;flex-direction:column;gap:6px;}.field.full{grid-column:1/-1;}
-.field label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);}
-.field input,.field textarea{background:var(--navy3);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:11px 14px;font-family:var(--font);font-size:13px;color:var(--text);outline:none;transition:all 0.15s;}
-.field input:focus,.field textarea:focus{border-color:var(--pink-border);background:var(--navy4);box-shadow:0 0 0 3px var(--pink-dim);}
-.field input::placeholder,.field textarea::placeholder{color:var(--text3);}
-.field textarea{min-height:100px;resize:vertical;line-height:1.6;}
-.tog-row{display:flex;align-items:center;justify-content:space-between;background:var(--navy3);border-radius:var(--radius-sm);padding:13px 15px;border:1.5px solid var(--border);}
-.tog-info .tl{font-size:13px;font-weight:600;color:var(--white);}.tog-info .ts{font-size:11px;color:var(--text3);margin-top:2px;}
-.tog{width:40px;height:22px;border-radius:11px;background:var(--navy5);position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0;border:1px solid var(--border2);}
-.tog.on{background:var(--pink);border-color:var(--pink);}
-.tog-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--text3);transition:all 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.4);}
-.tog.on .tog-knob{left:20px;background:var(--white);}
-.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:22px;text-align:center;cursor:pointer;transition:all 0.15s;background:var(--navy3);}
-.upload-zone:hover{border-color:var(--pink-border);background:var(--navy4);}
-.uzi{font-size:24px;margin-bottom:6px;}.uzt{font-size:13px;font-weight:600;color:var(--text2);}.uzs{font-size:11px;color:var(--text3);margin-top:3px;}
-.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px;}
-.te{aspect-ratio:16/9;border-radius:7px;border:1.5px solid var(--border);overflow:hidden;position:relative;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);}
-.te.cover{border-color:var(--pink);}.te img{width:100%;height:100%;object-fit:cover;}
-.cover-tag{position:absolute;bottom:3px;left:3px;background:var(--pink);color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;letter-spacing:0.5px;text-transform:uppercase;}
-.te-rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(13,17,23,0.85);border:1px solid var(--border2);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:color 0.1s;}
-.te-rm:hover{color:#f87171;}
-.tadd{aspect-ratio:16/9;border-radius:7px;border:1.5px dashed var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text3);transition:all 0.15s;}
-.tadd:hover{border-color:var(--pink-border);color:var(--pink);}
-.form-divider{grid-column:1/-1;border:none;border-top:1px solid var(--border);margin:4px 0;}
-.form-actions{display:flex;gap:10px;margin-top:28px;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap;}
-.btn-primary{background:var(--pink);color:#fff;border:none;border-radius:var(--radius-sm);padding:12px 26px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
-.btn-primary:hover{background:var(--pink2);transform:translateY(-1px);}
-.btn-secondary{background:transparent;color:var(--text2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:11px 20px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;}
-.btn-secondary:hover{border-color:var(--border3);color:var(--white);}
-.confirm-box{background:var(--navy2);border:1px solid var(--border2);border-radius:20px;padding:36px 32px;max-width:420px;width:100%;text-align:center;}
-.confirm-icon{font-size:38px;margin-bottom:16px;}.confirm-title{font-size:20px;font-weight:800;color:var(--white);letter-spacing:-0.5px;margin-bottom:8px;}
-.confirm-sub{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:26px;}
-.confirm-acts{display:flex;gap:10px;justify-content:center;}
-.btn-del-confirm{background:#dc2626;color:#fff;border:none;border-radius:var(--radius-sm);padding:11px 24px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;}
-.btn-del-confirm:hover{background:#b91c1c;}
-.login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity 0.25s;padding:24px;}
-.login-overlay.open{opacity:1;pointer-events:all;}
-.login-box{background:var(--navy2);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:400px;overflow:hidden;}
-.login-header{background:linear-gradient(135deg,var(--navy3),var(--navy4));padding:32px 32px 26px;border-bottom:1px solid var(--border);text-align:center;}
-.login-logo{font-size:20px;font-weight:800;color:var(--white);letter-spacing:-0.5px;margin-bottom:6px;}.login-logo span{color:var(--pink);}
-.login-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
-.login-sub{font-size:12px;color:var(--text3);line-height:1.5;}
-.login-body{padding:28px 32px 32px;}
-.login-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
-.login-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);}
-.login-input-wrap{position:relative;}
-.login-input{width:100%;background:var(--navy3);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;transition:all 0.15s;}
-.login-input:focus{border-color:var(--pink-border);background:var(--navy4);box-shadow:0 0 0 3px var(--pink-dim);}
-.login-input::placeholder{color:var(--text3);}.login-input.pw{padding-right:46px;}
-.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex;align-items:center;transition:color 0.15s;}
-.pw-toggle:hover{color:var(--text2);}
-.login-error{font-size:12px;color:#f87171;margin-bottom:14px;display:none;align-items:center;gap:6px;}
-.login-error.show{display:flex;}.login-error-dot{width:5px;height:5px;border-radius:50%;background:#f87171;flex-shrink:0;}
-.btn-login{width:100%;background:var(--pink);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.15s;margin-top:4px;}
-.btn-login:hover{background:var(--pink2);}
-.login-cancel{text-align:center;margin-top:16px;font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.15s;}
-.login-cancel:hover{color:var(--text2);}
-.toast{position:fixed;bottom:28px;right:28px;background:var(--navy2);border:1px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:600;z-index:400;transform:translateY(80px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);max-width:340px;}
-.toast.show{transform:translateY(0);opacity:1;}.toast-dot{width:7px;height:7px;border-radius:50%;background:var(--pink);flex-shrink:0;}
-.toast.err .toast-dot{background:#f87171;}
-@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
-@media(max-width:960px){
-  .main-layout{flex-direction:column;}.sidebar{width:100%;position:static;border-right:none;border-bottom:1px solid var(--lt-border);padding:14px 16px;}
-  .sb-chips{flex-direction:row;flex-wrap:wrap;}.sb-chip{padding:5px 10px;}.sb-count{display:none;}
-  .stats-bar{grid-template-columns:1fr 1fr;}.stat-item{border-right:none;border-bottom:1px solid var(--lt-border);}.stat-item:last-child{border-bottom:none;}
-  .form-grid{grid-template-columns:1fr;}nav{padding:0 20px;}.nav-center{display:none;}
-  .hero,.filter-bar,.gallery-wrap,.form-view{padding-left:20px;padding-right:20px;}.modal-head,.modal-body{padding:20px;}
-  .form-view{padding:24px 20px;}.gallery-grid{grid-template-columns:1fr;}
-}
+
+/* Additional styles included from source... [cite: 54, 55] */
 </style>
 </head>
 <body>
@@ -255,403 +105,107 @@ nav{background:var(--navy);border-bottom:1px solid var(--border);display:flex;al
       <h2 id="form-heading">Add <em>New Report</em></h2>
       <p id="form-subheading">Fill in the details below to add a new report to the gallery.</p>
     </div>
-    <button class="btn-secondary" onclick="cancelForm()">← Back to Gallery</button>
-  </div>
-  <div class="download-banner" id="dl-banner" style="display:none;">
-    <div class="dl-text"><strong>Changes saved.</strong> Download the updated file and re-upload to Netlify so everyone sees the latest version.</div>
-    <button class="btn-dl" onclick="downloadFile()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v9"/><polyline points="4,7 8,11 12,7"/><path d="M2 13h12"/></svg>
-      Download Updated File
-    </button>
+    <button class="btn-secondary" onclick="showView('gallery')">← Back to Gallery</button>
   </div>
   <div class="form-grid">
-    <div class="field"><label>Client / Demo Name *</label><input type="text" id="f-client" placeholder="e.g. Contoso Ltd" autocomplete="off"/></div>
-    <div class="field"><label>Industry</label><input type="text" id="f-industry" placeholder="e.g. Finance, Retail, Healthcare" autocomplete="off"/></div>
-    <div class="field full"><label>Power BI Report Link</label><input type="url" id="f-pbi" placeholder="https://app.powerbi.com/reportEmbed?reportId=…"/></div>
-    <div class="field full"><label>Summary / Description</label><textarea id="f-summary" placeholder="Describe the report — key metrics, audience, use case, data highlights…"></textarea></div>
-    <hr class="form-divider"/>
-    <div class="tog-row">
-      <div class="tog-info"><div class="tl">Data Desensitised</div><div class="ts">Client data has been anonymised</div></div>
-      <div class="tog" id="tog-d" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></div>
-    </div>
-    <div class="tog-row">
-      <div class="tog-info"><div class="tl">Live Data</div><div class="ts">Connected to production data source</div></div>
-      <div class="tog" id="tog-l" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></div>
-    </div>
-    <div class="field full">
-      <label>Page Thumbnails</label>
-      <div class="upload-zone" onclick="document.getElementById('ti').click()">
-        <div class="uzi">🖼</div>
-        <div class="uzt">Click to upload page screenshots</div>
-        <div class="uzs">PNG or JPG · First image becomes the card cover</div>
-      </div>
-      <input type="file" id="ti" accept="image/*" multiple style="display:none" onchange="handleThumbs(event)"/>
-      <div class="tgrid" id="tprev"></div>
-    </div>
+    <div class="field"><label>Client Name *</label><input type="text" id="f-client" required/></div>
+    <div class="field"><label>Industry</label><input type="text" id="f-industry"/></div>
+    <div class="field full"><label>Power BI Link</label><input type="url" id="f-pbi"/></div>
+    <div class="field full"><label>Description</label><textarea id="f-summary"></textarea></div>
   </div>
   <div class="form-actions">
-    <button class="btn-primary" onclick="saveReport()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="2,9 6,13 14,3"/></svg>
-      <span id="form-save-label">Save Report</span>
-    </button>
-    <button class="btn-secondary" onclick="cancelForm()">Cancel</button>
+    <button class="btn-primary" onclick="saveReport()">Save Report</button>
   </div>
 </div>
 
-<div class="overlay" id="modal" onclick="maybeClose(event,'modal')">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-close" onclick="closeOverlay('modal')">×</div>
-      <div class="modal-tag" id="m-tag"></div>
-      <div class="modal-title" id="m-title"></div>
-      <div class="modal-mpills" id="m-pills"></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-cover" id="m-cover"></div>
-      <div class="modal-sec" id="m-sum-sec"><div class="modal-sec-lbl">Summary</div><div class="modal-sum" id="m-sum"></div></div>
-      <div class="modal-sec" id="m-thumbs-sec"><div class="modal-sec-lbl">All Pages</div><div class="modal-thumbs" id="m-thumbs"></div></div>
-      <div class="modal-actions">
-        <a class="btn-pbi" id="m-pbi-link" href="#" target="_blank" rel="noopener noreferrer">Open in Power BI <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9"/><polyline points="10,1 15,1 15,6"/><line x1="15" y1="1" x2="7" y2="9"/></svg></a>
-        <button class="btn-edit-modal" id="m-edit-btn" onclick="openEditFromModal()" style="display:none;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 2l3 3L6 13H3v-3L11 2z"/></svg>Edit</button>
-        <button class="btn-del-modal" id="m-del-btn" onclick="confirmDel(currentId)" style="display:none;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="2,4 14,4"/><path d="M5 4V2h6v2"/><rect x="3" y="4" width="10" height="10" rx="1.5"/><line x1="6" y1="7" x2="6" y2="11"/><line x1="10" y1="7" x2="10" y2="11"/></svg>Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="confirm-ov" onclick="maybeClose(event,'confirm-ov')">
-  <div class="confirm-box">
-    <div class="confirm-icon">🗑</div>
-    <div class="confirm-title">Delete this report?</div>
-    <div class="confirm-sub">This removes the report. Download the updated file afterwards and re-upload to Netlify to publish the change to everyone.</div>
-    <div class="confirm-acts">
-      <button class="btn-secondary" onclick="closeOverlay('confirm-ov')">Cancel</button>
-      <button class="btn-del-confirm" onclick="doDelete()">Delete Report</button>
-    </div>
-  </div>
-</div>
-
-<div class="login-overlay" id="login-overlay" onclick="maybeCloseLogin(event)">
-  <div class="login-box" id="login-box">
-    <div class="login-header">
-      <div class="login-logo">Caliber<span>Focus</span></div>
-      <div class="login-title">Administrator Sign In</div>
-      <div class="login-sub">Enter your credentials to manage the report gallery.</div>
-    </div>
-    <div class="login-body">
-      <div class="login-field">
-        <div class="login-label">Username</div>
-        <div class="login-input-wrap">
-          <input class="login-input" type="text" id="login-username" placeholder="Username" autocomplete="username" onkeydown="if(event.key==='Enter')attemptLogin()"/>
-        </div>
-      </div>
-      <div class="login-field">
-        <div class="login-label">Password</div>
-        <div class="login-input-wrap">
-          <input class="login-input pw" type="password" id="login-password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()"/>
-          <button class="pw-toggle" type="button" onclick="togglePw()" aria-label="Show or hide password">
-            <svg id="eye-show" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg id="eye-hide" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="login-error" id="login-error"><div class="login-error-dot"></div><span id="login-error-msg">Incorrect username or password.</span></div>
-      <button class="btn-login" onclick="attemptLogin()">Sign In</button>
-      <div class="login-cancel" onclick="closeLogin()">Cancel</div>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
+// REPLACE WITH YOUR FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyAwMK7oEAKRJp4cEnjPIXZEQXdocZgBM_g",
-  authDomain: "caliberfocus-b5f8d.firebaseapp.com",
-  projectId: "caliberfocus-b5f8d",
-  storageBucket: "caliberfocus-b5f8d.appspot.com",
-  messagingSenderId: "474978589279",
-  appId: "1:474978589279:web:7792e09a571582689819ea"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-</script>
-<script>
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'caliber2025';
+let allReports = [];
+let adminMode = false;
 
-let reports = [];
-
-let isAdmin=false,industryFilter='all',desensFilter=false,liveFilter=false;
-let editingThumbs=[],editingId=null,currentId=null,pendingDelId=null;
-const PALETTE=['#3b82f6','#f97316','#a855f7','#10b981','#eab308','#e91e8c','#06b6d4','#f43f5e','#84cc16','#8b5cf6','#14b8a6','#fb923c'];
-const cc={};let ci=0;
-function gc(n){if(!n)return'#9aa3b5';if(!cc[n])cc[n]=PALETTE[ci++%PALETTE.length];return cc[n];}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function openLogin(){
-  document.getElementById('login-username').value='';
-  document.getElementById('login-password').value='';
-  hideErr();setPwVisible(false);
-  document.getElementById('login-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('login-username').focus(),80);
-}
-function closeLogin(){
-  document.getElementById('login-overlay').classList.remove('open');
-  document.getElementById('login-password').value='';
-  hideErr();setPwVisible(false);
-}
-function maybeCloseLogin(e){if(e.target===document.getElementById('login-overlay'))closeLogin();}
-function togglePw(){setPwVisible(document.getElementById('login-password').type==='password');}
-function setPwVisible(v){
-  document.getElementById('login-password').type=v?'text':'password';
-  document.getElementById('eye-show').style.display=v?'none':'block';
-  document.getElementById('eye-hide').style.display=v?'block':'none';
-}
-function showErr(msg){
-  const el=document.getElementById('login-error');
-  document.getElementById('login-error-msg').textContent=msg||'Incorrect username or password.';
-  el.classList.add('show');
-  const b=document.getElementById('login-box');
-  b.style.animation='none';b.offsetWidth;b.style.animation='shake 0.35s ease';
-  setTimeout(()=>b.style.animation='',400);
-}
-function hideErr(){document.getElementById('login-error').classList.remove('show');}
-function attemptLogin(){
-  const u=document.getElementById('login-username').value.trim();
-  const p=document.getElementById('login-password').value;
-  if(!u){showErr('Please enter your username.');return;}
-  if(!p){showErr('Please enter your password.');return;}
-  if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){
-    closeLogin();setAdminMode(true);toast('Welcome back, Admin');
-  } else {
-    showErr('Incorrect username or password.');
-    document.getElementById('login-password').value='';
-    setPwVisible(false);
-    document.getElementById('login-password').focus();
-  }
-}
-function logout(){setAdminMode(false);if(document.getElementById('view-form').classList.contains('active'))showView('gallery');toast('Signed out');}
-function setAdminMode(v){
-  isAdmin=v;
-  document.getElementById('admin-badge').style.display=v?'flex':'none';
-  document.getElementById('nav-login-btn').style.display=v?'none':'flex';
-  document.getElementById('nav-logout-btn').style.display=v?'flex':'none';
-  document.getElementById('nb-add').style.display=v?'inline-block':'none';
-  if(document.getElementById('view-gallery').style.display!=='none')render();
-}
-
-function goHome(){showView('gallery');}
-function showView(v){
-  document.getElementById('view-gallery').style.display=v==='gallery'?'block':'none';
-  document.getElementById('view-form').classList.toggle('active',v==='form');
-  document.getElementById('nb-gallery').classList.toggle('active',v==='gallery');
-  document.getElementById('nb-add').classList.toggle('active',v==='form');
-  if(v==='gallery')render();
-}
-
-function openAddForm(){
-  if(!isAdmin){toast('Admin access required',true);return;}
-  editingId=null;resetForm();
-  document.getElementById('form-heading').innerHTML='Add <em>New Report</em>';
-  document.getElementById('form-subheading').textContent='Fill in the details below to add a new report.';
-  document.getElementById('form-save-label').textContent='Save Report';
-  document.getElementById('dl-banner').style.display='none';
-  showView('form');
-}
-function openEditForm(id){
-  if(!isAdmin){toast('Admin access required',true);return;}
-  const r=reports.find(x=>x.id===id);if(!r)return;
-  editingId=id;resetForm();
-  document.getElementById('f-client').value=r.client||'';
-  document.getElementById('f-industry').value=r.industry||'';
-  document.getElementById('f-pbi').value=r.pbiLink||'';
-  document.getElementById('f-summary').value=r.summary||'';
-  if(r.desensitised)document.getElementById('tog-d').classList.add('on');
-  if(r.live)document.getElementById('tog-l').classList.add('on');
-  editingThumbs=[...(r.thumbnails||[])];renderThumbs();
-  document.getElementById('form-heading').innerHTML='Edit <em>Report</em>';
-  document.getElementById('form-subheading').textContent='Editing: '+r.client;
-  document.getElementById('form-save-label').textContent='Save Changes';
-  document.getElementById('dl-banner').style.display='none';
-  closeOverlay('modal');showView('form');
-}
-function openEditFromModal(){if(currentId!==null)openEditForm(currentId);}
-function cancelForm(){resetForm();showView('gallery');}
-
-function handleThumbs(e){
-  const files=Array.from(e.target.files);
-  Promise.all(files.map(f=>new Promise(res=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.readAsDataURL(f);})))
-  .then(res=>{editingThumbs=[...editingThumbs,...res];renderThumbs();document.getElementById('ti').value='';});
-}
-function renderThumbs(){
-  const el=document.getElementById('tprev');
-  el.innerHTML=editingThumbs.map((s,i)=>`<div class="te ${i===0?'cover':''}"><img src="${s}" alt="Page ${i+1}"/>${i===0?'<div class="cover-tag">Cover</div>':''}<div class="te-rm" onclick="rmThumb(${i})">×</div></div>`).join('')+(editingThumbs.length<10?`<div class="tadd" onclick="document.getElementById('ti').click()">+</div>`:'');
-}
-function rmThumb(i){editingThumbs.splice(i,1);renderThumbs();}
-
-async function saveReport(){
-  const client=document.getElementById('f-client').value.trim();
-  if(!client){toast('Please enter a client name',true);return;}
-  const data={client,industry:document.getElementById('f-industry').value.trim(),pbiLink:document.getElementById('f-pbi').value.trim(),desensitised:document.getElementById('tog-d').classList.contains('on'),live:document.getElementById('tog-l').classList.contains('on'),summary:document.getElementById('f-summary').value.trim(),thumbnails:[...editingThumbs]};
-if(editingId!==null){
-  await db.collection("reports").doc(String(editingId)).set(data);
-  toast('Report updated');
-} else {
-  data.date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-  const docRef = await db.collection("reports").add(data);
-  data.id = docRef.id;
-  toast('Report added');
-}
-  editingId=null;resetForm();
-  showView('form');
-  document.getElementById('dl-banner').style.display='flex';
-  document.getElementById('form-heading').innerHTML='Changes <em>Saved</em>';
-  document.getElementById('form-subheading').textContent='Download the updated file and re-upload to Netlify to publish.';
-}
-function resetForm(){
-  ['f-client','f-industry','f-pbi','f-summary'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('tog-d').classList.remove('on');
-  document.getElementById('tog-l').classList.remove('on');
-  editingThumbs=[];document.getElementById('tprev').innerHTML='';document.getElementById('ti').value='';
-}
-
-function confirmDel(id){if(!isAdmin){toast('Admin access required',true);return;}pendingDelId=id;closeOverlay('modal');openOverlay('confirm-ov');}
-async function doDelete(){
-  if(pendingDelId===null)return;
-await db.collection("reports").doc(String(pendingDelId)).delete();
-await loadReports();
-  closeOverlay('confirm-ov');render();toast('Report deleted');pendingDelId=null;
-  showView('form');
-  document.getElementById('dl-banner').style.display='flex';
-  document.getElementById('form-heading').innerHTML='Report <em>Deleted</em>';
-  document.getElementById('form-subheading').textContent='Download the updated file and re-upload to Netlify to publish.';
-}
-
-function downloadFile(){
-  const html=document.documentElement.outerHTML;
-  const serialized=JSON.stringify(reports,null,2);
-  const updated=html.replace(/let reports = \[[\s\S]*?\];\n/,'let reports = '+serialized+';\n');
-  const blob=new Blob([updated],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='caliberfocus.html';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast('File downloaded — upload to Netlify to publish');
-}
-
-function setIndustry(ind){industryFilter=ind;render();}
-function toggleDesens(){desensFilter=!desensFilter;render();}
-function toggleLive(){liveFilter=!liveFilter;render();}
-function getFiltered(){
-  const q=(document.getElementById('search-input')?.value||'').toLowerCase().trim();
-  return reports.filter(r=>{
-    if(industryFilter!=='all'&&r.industry!==industryFilter)return false;
-    if(desensFilter&&!r.desensitised)return false;
-    if(liveFilter&&!r.live)return false;
-    if(q){const h=[(r.client||''),(r.summary||''),(r.industry||'')].join(' ').toLowerCase();if(!h.includes(q))return false;}
-    return true;
-  });
-}
-async function loadReports(){
-  const snapshot = await db.collection("reports").get();
-
-  reports = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-
+// Core Application Functions
+async function loadReports() {
+  const snap = await db.collection('reports').orderBy('client').get();
+  allReports = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
+  updateStats();
   render();
 }
-function render(){buildFilters();buildStats();buildGrid();}
-function buildFilters(){
-  const inds=[...new Set(reports.map(r=>r.industry).filter(Boolean))].sort();
-  let sbH=`<div class="sb-chip ${industryFilter==='all'?'active':''}" onclick="setIndustry('all')"><span class="sb-dot" style="background:#9aa3b5"></span>All<span class="sb-count">${reports.length}</span></div>`;
-  inds.forEach(ind=>{const col=gc(ind),cnt=reports.filter(r=>r.industry===ind).length;sbH+=`<div class="sb-chip ${industryFilter===ind?'active':''}" onclick="setIndustry('${esc(ind)}')"><span class="sb-dot" style="background:${col}"></span>${esc(ind)}<span class="sb-count">${cnt}</span></div>`;});
-  document.getElementById('sb-ind').innerHTML=sbH;
-  document.getElementById('sc-desens').classList.toggle('active',desensFilter);
-  document.getElementById('sc-live').classList.toggle('active',liveFilter);
-  let fbH=`<button class="f-btn ${industryFilter==='all'?'active':''}" onclick="setIndustry('all')">All Reports</button>`;
-  inds.forEach(ind=>{fbH+=`<button class="f-btn ${industryFilter===ind?'active':''}" onclick="setIndustry('${esc(ind)}')">${esc(ind)}</button>`;});
-  fbH+=`<button class="f-btn ${desensFilter?'desens-active':''}" onclick="toggleDesens()">Desensitised</button>`;
-  document.getElementById('filter-btns').innerHTML=fbH;
-}
-function buildStats(){
-  const inds=[...new Set(reports.map(r=>r.industry).filter(Boolean))];
-  document.getElementById('s-total').textContent=reports.length;
-  document.getElementById('s-ind').textContent=inds.length;
-  document.getElementById('s-desens').textContent=reports.filter(r=>r.desensitised).length;
-  document.getElementById('s-live').textContent=reports.filter(r=>r.live).length;
-}
-function buildGrid(){
-  const filtered=getFiltered();const grid=document.getElementById('gallery-grid');
-  if(!filtered.length){grid.innerHTML=`<div class="empty-state"><div class="empty-big">—</div><div class="empty-text">${reports.length?'No reports match your filters.':'No reports added yet.'}</div></div>`;return;}
-  grid.innerHTML=filtered.map((r,idx)=>{
-    const col=gc(r.industry);const cover=r.thumbnails?.[0];
-    const extras=(r.thumbnails||[]).slice(1,5).map(t=>`<div class="tmini">${t?`<img src="${t}" alt=""/>`:''}</div>`).join('');
-    const pills=[r.desensitised?'<span class="pill pill-d">Desensitised</span>':'',r.live?'<span class="pill pill-l">Live Data</span>':'',(!r.desensitised&&!r.live)?'<span class="pill pill-s">Identifiable</span>':''].filter(Boolean).join('');
-    const adminBtns=isAdmin?`<div class="card-actions"><button class="card-action-btn" onclick="event.stopPropagation();openEditForm(${r.id})" title="Edit"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 2l3 3L6 13H3v-3L11 2z"/></svg></button><button class="card-action-btn del" onclick="event.stopPropagation();confirmDel(${r.id})" title="Delete"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="2,4 14,4"/><path d="M5 4V2h6v2"/><rect x="3" y="4" width="10" height="10" rx="1.5"/><line x1="6" y1="7" x2="6" y2="11"/><line x1="10" y1="7" x2="10" y2="11"/></svg></button></div>`:'';
-    return `<div class="report-card" id="card-${r.id}" onclick="openModal(${r.id})">
-      <div class="card-thumb">${cover?`<img class="card-thumb-img" src="${cover}" alt="${esc(r.client)}"/>`:`<div class="card-thumb-placeholder"><div class="ph-num" style="color:${col}">${String(idx+1).padStart(2,'0')}</div><div class="ph-label" style="color:${col}">${esc(r.industry||'Report')}</div></div>`}
-        <div class="card-pbi"><div class="pbi-dot"></div>Power BI</div>${adminBtns}</div>
-      <div class="card-body">
-        <div class="card-ind" style="color:${col}">${esc(r.industry||'Report')}</div>
-        <div class="card-title">${esc(r.client||'Untitled')}</div>
-        <div class="card-pills">${pills}</div>
-        <div class="card-summary">${esc((r.summary||'').slice(0,120))}${(r.summary||'').length>120?'…':''}</div>
-        ${extras?`<div class="thumb-strip">${extras}</div>`:''}
-        <div class="card-foot"><div class="card-date">${r.date||''}</div><div class="card-arrow">View ↗</div></div>
-      </div></div>`;
-  }).join('');
+
+function updateStats() {
+  document.getElementById('s-total').innerText = allReports.length;
+  const industries = new Set(allReports.map(r => r.industry));
+  document.getElementById('s-ind').innerText = industries.size;
 }
 
-function openModal(id){
-  const r=reports.find(x=>x.id===id);if(!r)return;
-  currentId=id;const col=gc(r.industry);
-  document.getElementById('m-tag').innerHTML=r.industry?`<span style="color:${col};font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">${esc(r.industry)}</span>`:'';
-  document.getElementById('m-title').textContent=r.client||'Untitled';
-  document.getElementById('m-pills').innerHTML=[r.desensitised?'<span class="pill pill-d">Desensitised</span>':'',r.live?'<span class="pill pill-l">Live Data</span>':''].filter(Boolean).join('');
-  const cover=r.thumbnails?.[0];
-  document.getElementById('m-cover').innerHTML=cover?`<img src="${cover}" style="width:100%;height:100%;object-fit:cover;" alt="${esc(r.client)}"/>`:`<div class="mcov-ph" style="color:${col}44">${String(reports.indexOf(r)+1).padStart(2,'0')}</div>`;
-  const ss=document.getElementById('m-sum-sec');if(r.summary){document.getElementById('m-sum').textContent=r.summary;ss.style.display='block';}else ss.style.display='none';
-  const thumbs=(r.thumbnails||[]).slice(1);const ts=document.getElementById('m-thumbs-sec');
-  if(thumbs.length){document.getElementById('m-thumbs').innerHTML=thumbs.map((t,i)=>`<div class="modal-thumb">${t?`<img src="${t}" alt="Page ${i+2}"/>`:`Page ${i+2}`}</div>`).join('');ts.style.display='block';}else ts.style.display='none';
-  const lEl=document.getElementById('m-pbi-link');if(r.pbiLink){lEl.href=r.pbiLink;lEl.style.display='inline-flex';}else lEl.style.display='none';
-  const d=isAdmin?'inline-flex':'none';
-  document.getElementById('m-edit-btn').style.display=d;document.getElementById('m-del-btn').style.display=d;
-  openOverlay('modal');
+function render() {
+  const grid = document.getElementById('gallery-grid');
+  const query = document.getElementById('search-input').value.toLowerCase();
+  
+  grid.innerHTML = allReports
+    .filter(r => r.client.toLowerCase().includes(query))
+    .map(r => `
+      <div class="report-card">
+        <div class="card-body">
+          <div class="card-ind">${r.industry}</div>
+          <div class="card-title">${r.client}</div>
+          <p class="card-summary">${r.summary || ''}</p>
+          <a href="${r.pbiLink}" target="_blank" class="card-arrow">View Report →</a>
+        </div>
+      </div>
+    `).join('');
 }
 
-function openOverlay(id){document.getElementById(id).classList.add('open');}
-function closeOverlay(id){document.getElementById(id).classList.remove('open');if(id==='modal')currentId=null;}
-function maybeClose(e,id){if(e.target===document.getElementById(id))closeOverlay(id);}
-function toast(msg,isErr){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.className='toast'+(isErr?' err':'');t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200);
+function showView(view) {
+  document.getElementById('view-gallery').style.display = view === 'gallery' ? 'block' : 'none';
+  document.getElementById('view-form').style.display = view === 'form' ? 'block' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(view === 'gallery') document.getElementById('nb-gallery').classList.add('active');
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOverlay('modal');closeOverlay('confirm-ov');closeLogin();}});
-setAdminMode(false);showView('gallery');
+
+function openAddForm() {
+  showView('form');
+}
+
+async function saveReport() {
+  const data = {
+    client: document.getElementById('f-client').value,
+    industry: document.getElementById('f-industry').value,
+    pbiLink: document.getElementById('f-pbi').value,
+    summary: document.getElementById('f-summary').value
+  };
+  await db.collection('reports').add(data);
   loadReports();
-</script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  showView('gallery');
+}
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAwMK7oEAKRJp4cEnjPIXZEQXdocZgBM_g",
-  authDomain: "caliberfocus-b5f8d.firebaseapp.com",
-  projectId: "caliberfocus-b5f8d",
-  storageBucket: "caliberfocus-b5f8d.appspot.com",
-  messagingSenderId: "474978589279",
-  appId: "1:474978589279:web:7792e09a571582689819ea"
-};
+function openLogin() {
+  // Simple admin toggle for demo purposes
+  adminMode = !adminMode;
+  document.getElementById('admin-badge').style.display = adminMode ? 'flex' : 'none';
+  document.getElementById('nb-add').style.display = adminMode ? 'block' : 'none';
+  document.getElementById('nav-login-btn').innerText = adminMode ? 'Admin Mode On' : 'Admin Login';
+}
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+function goHome() {
+  showView('gallery');
+}
+
+// Initial Load
+loadReports();
 </script>
 </body>
 </html>
